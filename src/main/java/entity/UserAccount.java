@@ -1,8 +1,10 @@
 package entity;
 
+import base.entity.BaseEntity;
 import enums.AccountType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
+import jakarta.persistence.OneToOne;
 import lombok.*;
 
 
@@ -11,10 +13,12 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Entity(name = "userAccount")
-public class UserAccount extends Person{
+@Entity
+public class UserAccount extends BaseEntity {
     private String username;
     private String password;
-    @Enumerated()
+    @Enumerated
     private AccountType accountType;
+    @OneToOne
+    private Person person;
 }

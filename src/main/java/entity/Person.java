@@ -9,9 +9,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-@Entity(name = "person")
+@Entity
 public class Person extends BaseEntity {
     private String firstName;
     private String lastName;
     private Long nationalCode;
+
 }

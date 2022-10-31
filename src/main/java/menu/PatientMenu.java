@@ -22,7 +22,7 @@ public class PatientMenu {
             String patientCommand = scanner.next();
             if (Objects.equals(patientCommand, "1")) {
                 ClinicMenu clinicMenu = new ClinicMenu();
-                clinicMenu.showAll();
+                clinicMenu.showAll(user);
             } else if (Objects.equals(patientCommand, "2")) {
                 MedicalRecordOperation medicalRecordOperation = new MedicalRecordOperation();
                 medicalRecordOperation.showMedicalRecord(user);

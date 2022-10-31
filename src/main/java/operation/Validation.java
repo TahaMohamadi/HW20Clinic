@@ -32,7 +32,7 @@ public class Validation {
         optionalUserAccount.ifPresentOrElse(user -> {
             if(optionalUserAccount.get().getAccountType() == AccountType.DOCTOR) {
               DoctorMenu doctorMenu = new DoctorMenu();
-              doctorMenu.showMenu(user);
+              doctorMenu.showDoctorMenu(user);
             } else if (optionalUserAccount.get().getAccountType() == AccountType.PATIENT) {
                 PatientMenu patientMenu = new PatientMenu();
                 patientMenu.showMenu(user);

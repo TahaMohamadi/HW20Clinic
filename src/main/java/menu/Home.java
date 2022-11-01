@@ -12,12 +12,12 @@ public class Home {
 
     public void showMenu() {
         while (true) {
-            System.out.println("Welcome to Maktab Hospital");
-            System.out.println("please select your service number");
+            System.out.println("********************* Welcome to Maktab Hospital *********************");
+            System.out.println(" ----  please select your service number: ");
             System.out.println("1- signUp");
             System.out.println("2- signIn");
             System.out.println("3- Exit");
-            System.out.print("Enter command: ");
+            System.out.print("------- Enter command: ");
             String command = scanner.next();
             if (Objects.equals(command, "2")) {
                 Validation validation = new Validation();

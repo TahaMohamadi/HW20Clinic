@@ -10,7 +10,6 @@ import service.drug.DrugService;
 import util.Hibernate;
 
 public class DrugServiceImpl extends BaseServiceImpl<Drug, DrugRepo> implements DrugService {
-    private final DrugRepo doctorRepo = new DrugRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager());
 
     public DrugServiceImpl(DrugRepo repository) {
         super(repository);

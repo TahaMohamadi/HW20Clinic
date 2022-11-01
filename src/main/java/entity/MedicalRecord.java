@@ -14,11 +14,11 @@ import java.util.List;
 @ToString
 @Entity
 public class MedicalRecord  extends BaseEntity {
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "patient_id")
     private Patient patient;
-    @OneToMany(mappedBy = "medicalRecord")
+    @OneToMany(mappedBy = "medicalRecord", cascade = CascadeType.MERGE)
     private List<Prescription> prescriptions = new ArrayList<>();
-    @OneToMany(mappedBy = "medicalRecord", orphanRemoval = true)
+    @OneToMany(mappedBy = "medicalRecord", orphanRemoval = true, cascade = CascadeType.MERGE)
     private List<Appointment> appointments = new ArrayList<>();
 }

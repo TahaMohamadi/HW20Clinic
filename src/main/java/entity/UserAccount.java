@@ -2,6 +2,7 @@ package entity;
 
 import base.entity.BaseEntity;
 import enums.AccountType;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.OneToOne;
@@ -19,6 +20,6 @@ public class UserAccount extends BaseEntity {
     private String password;
     @Enumerated
     private AccountType accountType;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     private Person person;
 }

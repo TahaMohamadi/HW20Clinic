@@ -11,7 +11,6 @@ import util.Hibernate;
 import java.util.List;
 
 public class DoctorServiceImpl extends BaseServiceImpl<Doctor, DoctorRepo> implements DoctorService {
-    private final DoctorRepo doctorRepo = new DoctorRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager());
 
     public DoctorServiceImpl(DoctorRepo repository) {
         super(repository);
@@ -21,7 +20,7 @@ public class DoctorServiceImpl extends BaseServiceImpl<Doctor, DoctorRepo> imple
     @Override
     public List<Doctor> findByClinic(Clinic clinic) {
         try{
-            return doctorRepo.findByClinic(clinic);
+            return repository.findByClinic(clinic);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

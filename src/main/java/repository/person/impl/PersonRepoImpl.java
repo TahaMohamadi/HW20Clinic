@@ -11,7 +11,6 @@ import util.Hibernate;
 import java.util.Optional;
 
 public class PersonRepoImpl extends BaseRepositoryImpl<Person> implements PersonRepo {
-    private final PersonRepo userRepository = new PersonRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager());
 
     public PersonRepoImpl(EntityManager em) {
         super(em);

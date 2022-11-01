@@ -9,7 +9,6 @@ import util.Hibernate;
 
 public class
 SecretaryServiceImpl extends BaseServiceImpl<Secretary, SecretaryRepo> implements SecretaryService {
-    private SecretaryRepo secretaryRepo = new SecretaryRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager());
 
     public SecretaryServiceImpl(SecretaryRepo repository) {
         super(repository);

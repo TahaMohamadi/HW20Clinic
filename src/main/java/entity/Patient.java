@@ -1,6 +1,7 @@
 package entity;
 
 import base.entity.BaseEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
@@ -13,9 +14,9 @@ import lombok.*;
 @ToString
 @Entity
 public class Patient extends BaseEntity {
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     private MedicalRecord medicalRecord;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_account_id")
     private UserAccount userAccount;
 }

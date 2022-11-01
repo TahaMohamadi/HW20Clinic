@@ -14,7 +14,6 @@ import java.util.List;
 
 public class
 PrescriptionServiceImpl extends BaseServiceImpl<Prescription, PrescriptionRepo> implements PrescriptionService {
-    private PrescriptionRepo prescriptionRepo = new PrescriptionRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager());
 
     public PrescriptionServiceImpl(PrescriptionRepo repository) {
         super(repository);
@@ -23,7 +22,7 @@ PrescriptionServiceImpl extends BaseServiceImpl<Prescription, PrescriptionRepo> 
     @Override
     public List<Prescription> findByPatient(Patient patient) {
         try{
-            return prescriptionRepo.findByPatient(patient);
+            return repository.findByPatient(patient);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

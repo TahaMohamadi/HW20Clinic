@@ -14,7 +14,6 @@ import java.sql.Time;
 import java.util.List;
 
 public class AppointmentServiceImpl extends BaseServiceImpl<Appointment, AppointmentRepo> implements AppointmentService {
-    private final AppointmentRepo appointmentRepo = new AppointmentRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager());
 
     public AppointmentServiceImpl(AppointmentRepo repository) {
         super(repository);
@@ -23,7 +22,7 @@ public class AppointmentServiceImpl extends BaseServiceImpl<Appointment, Appoint
     @Override
     public List<Appointment> findByPatient(Patient patient) {
         try{
-            return appointmentRepo.findByPatient(patient);
+            return repository.findByPatient(patient);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -32,7 +31,7 @@ public class AppointmentServiceImpl extends BaseServiceImpl<Appointment, Appoint
     @Override
     public boolean checkAvailable(Doctor doctor, Time fromTime, Time thruTime, Date date, Patient patient) {
         try{
-            return appointmentRepo.checkAvailable(doctor, fromTime, thruTime, patient, date);
+            return repository.checkAvailable(doctor, fromTime, thruTime, patient, date);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

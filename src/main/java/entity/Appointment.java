@@ -4,10 +4,7 @@ import base.entity.BaseEntity;
 import enums.AppointmentTime;
 import enums.AppointmentType;
 import enums.DayEnum;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Date;
@@ -20,10 +17,10 @@ import java.sql.Time;
 @ToString
 @Entity
 public class Appointment  extends BaseEntity {
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "patient_id")
     private Patient patient;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "doctor_id")
     private Doctor doctor;
     private Time fromTime;
@@ -31,7 +28,7 @@ public class Appointment  extends BaseEntity {
     private Date date;
     @Enumerated
     private AppointmentType status;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "medical_record_id")
     private MedicalRecord medicalRecord;
 

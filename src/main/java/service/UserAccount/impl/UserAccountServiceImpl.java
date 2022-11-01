@@ -11,7 +11,6 @@ import java.util.Optional;
 
 public class UserAccountServiceImpl extends BaseServiceImpl<UserAccount, UserAccountRepo> implements UserAccountService {
 
-    private final UserAccountRepo userAccountRepo = new UserAccountRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager());
 
     public UserAccountServiceImpl(UserAccountRepoImpl repository) {
         super(repository);
@@ -20,7 +19,7 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccount, UserAcc
 
     public Optional<UserAccount> findUserAccount(String username, String password) {
         try {
-            return userAccountRepo.findUserAccount(username, password);
+            return repository.findUserAccount(username, password);
         } catch (Exception e) {
             return Optional.empty();
         }
@@ -29,7 +28,7 @@ public class UserAccountServiceImpl extends BaseServiceImpl<UserAccount, UserAcc
     @Override
     public Optional<UserAccount> findUserAccount(String username) {
         try {
-            return userAccountRepo.findUserAccount(username);
+            return repository.findUserAccount(username);
         } catch (Exception e) {
             return Optional.empty();
         }

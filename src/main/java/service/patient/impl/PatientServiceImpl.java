@@ -11,7 +11,6 @@ import util.Hibernate;
 
 public class
 PatientServiceImpl extends BaseServiceImpl<Patient, PatientRepo> implements PatientService {
-        private PatientRepo patientRepo = new PatientRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager());
 
     public PatientServiceImpl(PatientRepo repository) {
         super(repository);
@@ -20,7 +19,7 @@ PatientServiceImpl extends BaseServiceImpl<Patient, PatientRepo> implements Pati
     @Override
     public Patient findByUserAccount(UserAccount userAccount) {
         try{
-            return patientRepo.findByUserAccount(userAccount);
+            return repository.findByUserAccount(userAccount);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -29,7 +28,7 @@ PatientServiceImpl extends BaseServiceImpl<Patient, PatientRepo> implements Pati
     @Override
     public Patient findByMedicalRecord(MedicalRecord medicalRecord) {
         try{
-            return patientRepo.findByMedicalRecord(medicalRecord);
+            return repository.findByMedicalRecord(medicalRecord);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -13,7 +13,6 @@ import java.util.Optional;
 
 public class
 MedicalRecordServiceImpl extends BaseServiceImpl<MedicalRecord, MedicalRecordRepo> implements MedicalRecordService {
-    private MedicalRecordRepo medicalRecordRepo = new MedicalRecordRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager());
 
     public MedicalRecordServiceImpl(MedicalRecordRepo repository) {
         super(repository);
@@ -22,7 +21,7 @@ MedicalRecordServiceImpl extends BaseServiceImpl<MedicalRecord, MedicalRecordRep
     @Override
     public MedicalRecord findByPatient(Patient patient) {
         try{
-            return medicalRecordRepo.findByPatient(patient);
+            return repository.findByPatient(patient);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

@@ -10,7 +10,6 @@ import service.hospital.HospitalService;
 import util.Hibernate;
 
 public class HospitalServiceImpl extends BaseServiceImpl<Hospital, HospitalRepo> implements HospitalService {
-    private final HospitalRepo hospitalRepo = new HospitalRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager());
 
     public HospitalServiceImpl(HospitalRepo repository) {
         super(repository);

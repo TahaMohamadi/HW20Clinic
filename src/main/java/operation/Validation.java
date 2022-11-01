@@ -8,6 +8,7 @@ import enums.AccountType;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Enumerated;
 import menu.DoctorMenu;
+import menu.Home;
 import menu.PatientMenu;
 import menu.SecretaryMenu;
 import repository.medicalRecord.impl.MedicalRecordRepoImpl;
@@ -29,6 +30,10 @@ import java.util.Scanner;
 
 public class Validation {
     private final Scanner scanner = new Scanner(System.in);
+    PersonService personService = new PersonServiceImpl(new PersonRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
+    UserAccountService userAccountService= new UserAccountServiceImpl(new UserAccountRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
+    MedicalRecordService medicalRecordService = new MedicalRecordServiceImpl(new MedicalRecordRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
+    PatientService patientService = new PatientServiceImpl(new PatientRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
 
     public void loginMenu() {
 
@@ -36,8 +41,10 @@ public class Validation {
         String username = validName(scanner.next());
         System.out.println("Enter your password: ");
         String password = validName(scanner.next());
-         UserAccountService userAccountService= new UserAccountServiceImpl(new UserAccountRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
         Optional<UserAccount> optionalUserAccount = userAccountService.findUserAccount(username, password);
+//        UserAccount userAccount = userAccountService.findUserAccount(username, password);
+        System.out.println("w ");
+
         optionalUserAccount.ifPresentOrElse(user -> {
             if(optionalUserAccount.get().getAccountType() == AccountType.DOCTOR) {
               DoctorMenu doctorMenu = new DoctorMenu();
@@ -48,7 +55,11 @@ public class Validation {
             } else if (optionalUserAccount.get().getAccountType() == AccountType.SECRETARY) {
                 SecretaryMenu secretaryMenu = new SecretaryMenu();
                 secretaryMenu.showMenu(user);
-            }
+            } else {
+                Home home = new Home();
+                home.showMenu();
+
+            };
 
         }, () -> System.out.println("username or password is wrong"));
 
@@ -83,7 +94,7 @@ public class Validation {
         String lastname = validName(scanner.next());
         System.out.println("Enter your nationalCode: ");
         Long nationalCode = checkExistNationalCode(scanner.nextLong());
-        PersonService personService = new PersonServiceImpl(new PersonRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
+//        Long nationalCode = scanner.nextLong();
         Person person = new Person(firstname, lastname, nationalCode);
         System.out.println("Enter your username: ");
         String username = checkExistUsername(validName(scanner.next()));
@@ -104,8 +115,6 @@ public class Validation {
                 accountType = AccountType.PATIENT;
                 a = false;
 
-                MedicalRecord medicalRecord = new MedicalRecord();
-
             } else if (accountTypeNum == 3) {
                 accountType = AccountType.SECRETARY;
                 a = false;
@@ -113,29 +122,35 @@ public class Validation {
                 System.out.println("choose between 1, 2, 3");
             }
         }
+        personService.save(person);
 
-        UserAccountService userAccountService= new UserAccountServiceImpl(new UserAccountRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
         UserAccount userAccount = new UserAccount(username, password, accountType, person);
-        MedicalRecordService medicalRecordService = new MedicalRecordServiceImpl(new MedicalRecordRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
-        PatientService patientService = new PatientServiceImpl(new PatientRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
+        userAccountService.save(userAccount);
 
         if (accountType == AccountType.PATIENT){
             Patient patient = new Patient(null, userAccount);
             MedicalRecord medicalRecord = new MedicalRecord(patient, null, null);
-            patient.setMedicalRecord(medicalRecord);
+//            patient.setMedicalRecord(medicalRecord);
             patientService.save(patient);
             medicalRecordService.save(medicalRecord);
         }
-        personService.save(person);
-        userAccountService.save(userAccount);
 
 
+        if (accountType == AccountType.PATIENT) {
+            PatientMenu patientMenu = new PatientMenu();
+            patientMenu.showMenu(userAccount);
+        } else if (accountType == AccountType.DOCTOR) {
+            DoctorMenu doctorMenu = new DoctorMenu();
+            doctorMenu.showDoctorMenu(userAccount);
+        } else if (accountType == AccountType.SECRETARY) {
+            SecretaryMenu secretaryMenu =new SecretaryMenu();
+            secretaryMenu.showMenu(userAccount);
+        }
     }
 
 
     private String checkExistUsername(String username) {
         while (true) {
-            UserAccountService userAccountService = new UserAccountServiceImpl(new UserAccountRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
             Optional<UserAccount> optionalUser = userAccountService.findUserAccount(username);
             if (optionalUser.isPresent()) {
                 System.out.print("This username is taken. try another one: ");
@@ -147,16 +162,20 @@ public class Validation {
     }
 
     private Long checkExistNationalCode(Long nationalCode) {
-        while (true) {
+        boolean a = true;
+        while (a){
             PersonService personService = new PersonServiceImpl(new PersonRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
             Optional<Person> optionalPersons = personService.findPersonByNationalCode(nationalCode);
             if (optionalPersons.isPresent()) {
-                System.out.print("This username is taken. try another one: ");
+                System.out.print("This nationalCode is exist. try another again: ");
                 nationalCode = scanner.nextLong();
             } else {
+                a = false;
                 return nationalCode;
             }
         }
+        return nationalCode;
+
     }
 
 }

@@ -12,7 +12,7 @@ import util.Hibernate;
 import java.util.Optional;
 
 public class PersonServiceImpl extends BaseServiceImpl<Person, PersonRepo> implements PersonService {
-    private final PersonRepo personRepo = new PersonRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager());
+//    private final PersonRepo personRepo = new PersonRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager());
 
     public PersonServiceImpl(PersonRepoImpl repo) {
         super(repo);
@@ -21,7 +21,7 @@ public class PersonServiceImpl extends BaseServiceImpl<Person, PersonRepo> imple
     @Override
     public Optional<Person> findPersonByNationalCode(Long nationalCode) {
         try {
-            return personRepo.findPersonByNationalCode(nationalCode);
+            return repository.findPersonByNationalCode(nationalCode);
         } catch (Exception e) {
             return Optional.empty();
         }

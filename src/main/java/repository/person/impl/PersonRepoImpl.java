@@ -30,4 +30,13 @@ public class PersonRepoImpl extends BaseRepositoryImpl<Person> implements Person
         return Optional.ofNullable(Hibernate.getEntityManagerFactory().createEntityManager().createQuery(jpql, Person.class)
                 .setParameter("firstName", firstName).setParameter("lastname",lastname).getSingleResult());
     }
+
+    @Override
+    public Optional<Person> findPersonByNationalCode(Long nationalCode) {
+        String jpql = """
+                select p from Person p where p.nationalCode = :nationalCode
+                """;
+        return Optional.ofNullable(Hibernate.getEntityManagerFactory().createEntityManager().createQuery(jpql, Person.class)
+                .setParameter("nationalCode", nationalCode).getSingleResult());
+    }
 }

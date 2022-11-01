@@ -19,10 +19,10 @@ public class Home {
             System.out.println("3- Exit");
             System.out.print("Enter command: ");
             String command = scanner.next();
-            if (Objects.equals(command, "1")) {
+            if (Objects.equals(command, "2")) {
                 Validation validation = new Validation();
                 validation.loginMenu();
-            } else if (Objects.equals(command, "2")) {
+            } else if (Objects.equals(command, "1")) {
                 Validation validation = new Validation();
                 validation.signupMenu();
             } else if ((Objects.equals(command, "3"))) {

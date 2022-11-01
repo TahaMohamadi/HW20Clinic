@@ -1,18 +1,27 @@
 package operation;
 
+import entity.MedicalRecord;
+import entity.Patient;
 import entity.Person;
 import entity.UserAccount;
 import enums.AccountType;
+import jakarta.persistence.EntityManager;
 import jakarta.persistence.Enumerated;
 import menu.DoctorMenu;
 import menu.PatientMenu;
 import menu.SecretaryMenu;
+import repository.medicalRecord.impl.MedicalRecordRepoImpl;
+import repository.patient.impl.PatientRepoImpl;
 import repository.person.impl.PersonRepoImpl;
 import repository.userAccount.UserAccountRepoImpl;
 import service.Person.PersonService;
 import service.Person.impl.PersonServiceImpl;
 import service.UserAccount.UserAccountService;
 import service.UserAccount.impl.UserAccountServiceImpl;
+import service.medicalRecord.MedicalRecordService;
+import service.medicalRecord.impl.MedicalRecordServiceImpl;
+import service.patient.PatientService;
+import service.patient.impl.PatientServiceImpl;
 import util.Hibernate;
 
 import java.util.Optional;
@@ -73,7 +82,7 @@ public class Validation {
         System.out.println("Enter your lastname: ");
         String lastname = validName(scanner.next());
         System.out.println("Enter your nationalCode: ");
-        Long nationalCode = scanner.nextLong();
+        Long nationalCode = checkExistNationalCode(scanner.nextLong());
         PersonService personService = new PersonServiceImpl(new PersonRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
         Person person = new Person(firstname, lastname, nationalCode);
         System.out.println("Enter your username: ");
@@ -86,6 +95,7 @@ public class Validation {
         int accountTypeNum = scanner.nextInt();
         AccountType accountType = null;
         boolean a = true;
+
         while (a) {
             if (accountTypeNum == 1) {
                 accountType = AccountType.DOCTOR;
@@ -93,6 +103,9 @@ public class Validation {
             } else if (accountTypeNum == 2) {
                 accountType = AccountType.PATIENT;
                 a = false;
+
+                MedicalRecord medicalRecord = new MedicalRecord();
+
             } else if (accountTypeNum == 3) {
                 accountType = AccountType.SECRETARY;
                 a = false;
@@ -100,9 +113,23 @@ public class Validation {
                 System.out.println("choose between 1, 2, 3");
             }
         }
+
         UserAccountService userAccountService= new UserAccountServiceImpl(new UserAccountRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
         UserAccount userAccount = new UserAccount(username, password, accountType, person);
+        MedicalRecordService medicalRecordService = new MedicalRecordServiceImpl(new MedicalRecordRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
+        PatientService patientService = new PatientServiceImpl(new PatientRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
+
+        if (accountType == AccountType.PATIENT){
+            Patient patient = new Patient(null, userAccount);
+            MedicalRecord medicalRecord = new MedicalRecord(patient, null, null);
+            patient.setMedicalRecord(medicalRecord);
+            patientService.save(patient);
+            medicalRecordService.save(medicalRecord);
+        }
+        personService.save(person);
         userAccountService.save(userAccount);
+
+
     }
 
 
@@ -115,6 +142,19 @@ public class Validation {
                 username = scanner.next();
             } else {
                 return username;
+            }
+        }
+    }
+
+    private Long checkExistNationalCode(Long nationalCode) {
+        while (true) {
+            PersonService personService = new PersonServiceImpl(new PersonRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
+            Optional<Person> optionalPersons = personService.findPersonByNationalCode(nationalCode);
+            if (optionalPersons.isPresent()) {
+                System.out.print("This username is taken. try another one: ");
+                nationalCode = scanner.nextLong();
+            } else {
+                return nationalCode;
             }
         }
     }

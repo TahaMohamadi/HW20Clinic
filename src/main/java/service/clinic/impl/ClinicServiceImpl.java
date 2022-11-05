@@ -17,7 +17,18 @@ public class ClinicServiceImpl extends BaseServiceImpl<Clinic, ClinicRepo> imple
     @Override
     public List<Clinic> findAllClinics() {
         try {
+            repository.getEntityManager().getTransaction().begin();
             return repository.findAllClinics();
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    public Clinic findByClinicId(Long id) {
+        try {
+            repository.getEntityManager().getTransaction().begin();
+            return repository.findClinicById(id);
         } catch (Exception e) {
             return null;
         }

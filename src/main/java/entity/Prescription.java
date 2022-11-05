@@ -21,7 +21,7 @@ public class Prescription  extends BaseEntity {
     private List<Drug> drugs = new ArrayList<>();
     @OneToOne
     private Patient patient;
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "medical_record_id")
     private MedicalRecord medicalRecord;
 }

@@ -1,6 +1,7 @@
 package menu;
 
 import entity.MedicalRecord;
+import entity.Patient;
 import entity.UserAccount;
 import operation.AppointmentOperation;
 import operation.PrescriptionOperation;

@@ -20,7 +20,7 @@ public class MedicalRecordOperation {
             Patient patient = patientService.findByUserAccount(userAccount);
             MedicalRecord medicalRecord = medicalRecordService.findByPatient(patient);
             MedicalRecordMenu medicalRecordMenu = new MedicalRecordMenu();
-            medicalRecordMenu.showMenu(medicalRecord);
+            medicalRecordMenu.showMenu(medicalRecord, patient);
         }
     }
 

@@ -9,6 +9,8 @@ import jakarta.persistence.EntityManager;
 import repository.patient.PatientRepo;
 import util.Hibernate;
 
+import java.util.List;
+
 public class PatientRepoImpl extends BaseRepositoryImpl<Patient> implements PatientRepo {
     public PatientRepoImpl(EntityManager em) {
         super(em);
@@ -36,4 +38,15 @@ public class PatientRepoImpl extends BaseRepositoryImpl<Patient> implements Pati
         return (Hibernate.getEntityManagerFactory().createEntityManager().createQuery(jpql, Patient.class)
                 .setParameter("medicalRecord", medicalRecord).getSingleResult());
     }
+
+    @Override
+    public List<Patient> findAllPatient() {
+        String jpql = """
+                select p from Patient p 
+                """;
+        return (Hibernate.getEntityManagerFactory().createEntityManager().createQuery(jpql, Patient.class)
+                .getResultList());
+    }
+
+
 }

@@ -4,11 +4,10 @@ import base.service.impl.BaseServiceImpl;
 import entity.Clinic;
 import entity.Doctor;
 import repository.doctor.DoctorRepo;
-import repository.doctor.Impl.DoctorRepoImpl;
 import service.doctor.DoctorService;
-import util.Hibernate;
 
 import java.util.List;
+import java.util.Optional;
 
 public class DoctorServiceImpl extends BaseServiceImpl<Doctor, DoctorRepo> implements DoctorService {
 
@@ -25,4 +24,21 @@ public class DoctorServiceImpl extends BaseServiceImpl<Doctor, DoctorRepo> imple
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public Doctor findDoctorById(Long id) {
+        try{
+            return repository.findDoctorById(id);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Doctor> findAllDoctor() {
+        try{
+            return repository.findAllDoctor();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }      }
 }

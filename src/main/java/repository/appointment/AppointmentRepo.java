@@ -12,5 +12,10 @@ import java.util.List;
 public interface AppointmentRepo extends BaseRepository<Appointment> {
     List<Appointment> findByPatient(Patient patient);
 
-    boolean checkAvailable(Doctor doctor, Time fromTime, Time thruTime, Patient patient, Date date);
+    boolean checkAvailable(Doctor doctor, Time fromTime, Time thruTime, Date date);
+
+    List<Appointment> showAllAppointment(Long doctorId);
+
+    List<Appointment> showAllAppointments();
+
 }

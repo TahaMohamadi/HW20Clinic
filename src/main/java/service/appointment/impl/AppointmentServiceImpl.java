@@ -28,10 +28,28 @@ public class AppointmentServiceImpl extends BaseServiceImpl<Appointment, Appoint
         }
     }
 
-    @Override
-    public boolean checkAvailable(Doctor doctor, Time fromTime, Time thruTime, Date date, Patient patient) {
+
+    public boolean checkAvailable(Doctor doctor, Time fromTime, Time thruTime, Date date) {
         try{
-            return repository.checkAvailable(doctor, fromTime, thruTime, patient, date);
+            return repository.checkAvailable(doctor, fromTime, thruTime, date);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Appointment> showAllAppointment(Long doctorId) {
+        try{
+            return repository.showAllAppointment(doctorId);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public List<Appointment> showAllAppointments() {
+        try{
+            return repository.showAllAppointments();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

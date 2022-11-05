@@ -6,6 +6,7 @@ import operation.ClinicOperation;
 import operation.DoctorOperation;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class ClinicMenu {
@@ -14,7 +15,7 @@ public class ClinicMenu {
 
         ClinicOperation clinicOperation = new ClinicOperation();
         DoctorOperation doctorOperation = new DoctorOperation();
-            while(true){
+        while(true){
             System.out.println("Available Clinics: ");
             System.out.println("please select a Clinic");
             clinicOperation.showClinic();

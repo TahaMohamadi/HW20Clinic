@@ -8,4 +8,5 @@ import java.util.List;
 public interface ClinicRepo extends BaseRepository<Clinic> {
       List<Clinic> findAllClinics();
 
+      Clinic findClinicById(Long id);
 }

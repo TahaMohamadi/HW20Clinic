@@ -30,17 +30,15 @@ public class AppointmentRepoImpl extends BaseRepositoryImpl<Appointment> impleme
     }
 
     @Override
-    public boolean checkAvailable(Doctor doctor, Time fromTime, Time thruTime, Patient patient, Date date) {
+    public boolean checkAvailable(Doctor doctor, Time fromTime, Time thruTime, Date date) {
         String jpql = """
-                select a from Appointment a where 
+                select a from Appointment a where
                     a.doctor = :doctor 
-                and a.patient = :patient
                 and a.date = :date
-                and a.fromTime between :fromTime and :thruTime
+                and ((a.fromTime between :fromTime and :thruTime) or a.fromTime = :fromtime or (a.thruTime between :fromTime and :thruTime))
                 """;
         List<Appointment> appointment = (Hibernate.getEntityManagerFactory().createEntityManager().createQuery(jpql, Appointment.class)
                 .setParameter("doctor",doctor )
-                .setParameter("patient",patient )
                 .setParameter("date",date )
                 .setParameter("fromTime",fromTime )
                 .setParameter("thruTime",thruTime )
@@ -52,5 +50,21 @@ public class AppointmentRepoImpl extends BaseRepositoryImpl<Appointment> impleme
             check = false;
         }
         return check;
+    }
+
+    @Override
+    public List<Appointment> showAllAppointment(Long doctorId) {
+        String jpql = """
+                select a from Appointment a where a.doctor.id = :doctorId
+                """;
+        return (Hibernate.getEntityManagerFactory().createEntityManager().createQuery(jpql, Appointment.class).setParameter("doctorId", doctorId).getResultList());
+    }
+
+    @Override
+    public List<Appointment> showAllAppointments() {
+        String jpql = """
+                select a from Appointment a
+                """;
+        return (Hibernate.getEntityManagerFactory().createEntityManager().createQuery(jpql, Appointment.class).getResultList());
     }
 }

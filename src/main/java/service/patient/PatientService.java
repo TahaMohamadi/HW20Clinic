@@ -5,8 +5,14 @@ import entity.MedicalRecord;
 import entity.Patient;
 import entity.UserAccount;
 
+import java.util.List;
+
 public interface PatientService extends BaseService<Patient> {
     Patient findByUserAccount(UserAccount userAccount);
 
     Patient findByMedicalRecord(MedicalRecord medicalRecord);
+
+    List<Patient> findAllPatient();
+
+    void patientDesc(Long patientId);
 }

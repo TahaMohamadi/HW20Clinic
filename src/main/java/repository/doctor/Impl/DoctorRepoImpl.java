@@ -8,6 +8,7 @@ import repository.doctor.DoctorRepo;
 import util.Hibernate;
 
 import java.util.List;
+import java.util.Optional;
 
 public class DoctorRepoImpl extends BaseRepositoryImpl<Doctor> implements DoctorRepo {
     public DoctorRepoImpl(EntityManager em) {
@@ -26,5 +27,21 @@ public class DoctorRepoImpl extends BaseRepositoryImpl<Doctor> implements Doctor
                 """;
         return (Hibernate.getEntityManagerFactory().createEntityManager().createQuery(jpql, Doctor.class).setParameter("clinic", clinic).getResultList());
     }
+
+    @Override
+    public Doctor findDoctorById(Long id) {
+        String jpql = """
+                select d from Doctor d where d.id = :id
+                """;
+        return (Hibernate.getEntityManagerFactory().createEntityManager().createQuery(jpql, Doctor.class).setParameter("id", id).getSingleResult());
     }
+
+    @Override
+    public List<Doctor> findAllDoctor() {
+        String jpql = """
+                select d from Doctor d 
+                """;
+        return (Hibernate.getEntityManagerFactory().createEntityManager().createQuery(jpql, Doctor.class).getResultList());
+    }
+}
 

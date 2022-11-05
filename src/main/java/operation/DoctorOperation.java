@@ -10,21 +10,29 @@ import service.doctor.impl.DoctorServiceImpl;
 import util.Hibernate;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class DoctorOperation {
     private final ClinicService clinicService = new ClinicServiceImpl(new ClinicRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
     private final DoctorService doctorService = new DoctorServiceImpl(new DoctorRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
+    ClinicOperation clinicOperation = new ClinicOperation();
     public void findByClinic(Long id) {
     }
 
     public List<Doctor> findByClinicId(Long id) {
-        Optional<Clinic> optionalClinic = clinicService.findById(id);
-        List<Doctor> doctors = null;
-        optionalClinic.ifPresent(clinic -> {
-            doctors.addAll(doctorService.findByClinic(clinic));
+            Clinic clinic = clinicOperation.findByClinicId(id);
+            System.out.println(clinic);
+            List<Doctor> doctors = doctorService.findByClinic(clinic);
+            AtomicInteger a = new AtomicInteger(0);
+            String clinicName = clinic.getName();
+            String s = String.format(("----------------- clinic %S doctors -----------------"),clinicName);
+            System.out.println(s);
+            doctors.forEach(doctor -> {
+                a.getAndIncrement();
+                System.out.println(a +". "+ doctor.getPerson().getFirstName() + " "+ doctor.getPerson().getLastName() + "  -> id: " + doctor.getId());
+            });
 
-        });
+
         return doctors;
 
     }

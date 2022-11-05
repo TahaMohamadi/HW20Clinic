@@ -1,14 +1,13 @@
 package entity;
 
 import base.entity.BaseEntity;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.Transient;
 import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -18,7 +17,7 @@ import java.util.Set;
 @Entity
 public class Hospital  extends BaseEntity {
 private String name;
-@OneToMany(mappedBy = "hospital")
+@OneToMany(mappedBy = "hospital",cascade = CascadeType.MERGE)
 private List<Clinic> clinicList = new ArrayList<>();
 
 

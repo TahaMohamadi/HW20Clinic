@@ -4,7 +4,6 @@ import entity.Appointment;
 import entity.Doctor;
 import entity.Patient;
 import entity.UserAccount;
-import enums.AppointmentType;
 import repository.appointment.impl.AppointmentRepoImpl;
 import repository.doctor.Impl.DoctorRepoImpl;
 import repository.patient.impl.PatientRepoImpl;
@@ -18,16 +17,29 @@ import util.Hibernate;
 
 import java.sql.*;
 import java.util.List;
-import java.util.Optional;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class DoctorMenu {
 
     private final Scanner scanner = new Scanner(System.in);
-    private final DoctorService doctorService = new DoctorServiceImpl(new DoctorRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
+    private  final DoctorService doctorService = new DoctorServiceImpl(new DoctorRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
     private final PatientService patientService = new PatientServiceImpl(new PatientRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
     private final AppointmentService appointmentService = new AppointmentServiceImpl(new AppointmentRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
+
+    public void showAllDoctors() {
+        System.out.println("doctor list: ");
+        List<Doctor> doctors = doctorService.findAllDoctor();
+        AtomicInteger count = new AtomicInteger();
+        doctors.forEach(doctor-> {
+        count.getAndIncrement();
+        System.out.println(count + ". " + "doctor id: " + doctor.getId() +"  ----  " + doctor.getPerson().getFirstName() + " " + doctor.getPerson().getLastName() + "  ----  clinic: " + doctor.getClinic().getName());
+        });
+        Long doctorId = scanner.nextLong();
+        AppointmentMenu appointmentMenu = new AppointmentMenu();
+        appointmentMenu.showAllAppointment(doctorId);
+    }
+
     public void showMenu(List<Doctor> doctors, UserAccount userAccount) {
         while (true) {
             System.out.println("choose your doctor's code for take an Appointment: ");
@@ -38,7 +50,7 @@ public class DoctorMenu {
             });
             Long id = scanner.nextLong();
             AppointmentMenu appointmentMenu = new AppointmentMenu();
-            appointmentMenu.showMenu(id, userAccount);
+            appointmentMenu.showMenu(id, userAccount, doctors);
         }
     }
 
@@ -67,15 +79,7 @@ public class DoctorMenu {
             System.out.println("minute: ");
             minute = scanner.nextInt();
             Time thruTime = new Time(hour, minute, 0);
-            boolean check = appointmentService.checkAvailable(doctor, fromTime, thruTime, date, patient);
-            if (check) {
-                Appointment appointment = new Appointment(patient, doctor, fromTime, thruTime, date, AppointmentType.WAITING);
-                System.out.println("Your appointment is set!");
-                PatientMenu patientMenu = new PatientMenu();
-                patientMenu.showMenu(userAccount);
-            } else {
-                System.out.println("this time is not available, try again");
-            }
+
         }
     }
 

@@ -13,5 +13,10 @@ public interface AppointmentService extends BaseService<Appointment> {
 
     List<Appointment> findByPatient(Patient patient);
 
-    boolean checkAvailable(Doctor doctor, Time fromTime, Time thruTime, Date date, Patient patient);
+
+    boolean checkAvailable(Doctor doctor, Time fromTime, Time thruTime, Date date);
+
+    List<Appointment> showAllAppointment(Long doctorId);
+
+    List<Appointment> showAllAppointments();
 }

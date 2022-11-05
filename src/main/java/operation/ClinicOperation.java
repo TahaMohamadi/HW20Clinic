@@ -14,17 +14,18 @@ public class ClinicOperation {
     private final ClinicService clinicService = new ClinicServiceImpl(new ClinicRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
     public void showClinic(){
         List<Clinic> clinics = clinicService.findAllClinics();
-        System.out.println(clinics.toString() + "............ ");
+//        System.out.println(clinics + "............ ");
 
         clinics.forEach(clinic -> {
-            System.out.println(clinic.toString()+".------- ");
-
-            System.out.println(clinic.getId()+". "+ clinic.getName());
+//            System.out.println(clinic.toString()+".------- ");
+            System.out.println(clinic.getId() + ". " + clinic.getName());
         });
     }
 
 
-    public void findByClinicId(Long id) {
+    public Clinic findByClinicId(Long id) {
+        Clinic clinic = clinicService.findByClinicId(id);
+        return clinic;
 
     }
 }

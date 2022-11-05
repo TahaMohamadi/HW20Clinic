@@ -7,6 +7,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.*;
 
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor

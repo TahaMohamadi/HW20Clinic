@@ -10,11 +10,11 @@ import java.util.List;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@ToString
+//@ToString
 @Entity
 public class Clinic  extends BaseEntity {
     private String name;
-    @OneToMany(mappedBy = "clinic")
+    @OneToMany(mappedBy = "clinic", cascade = CascadeType.MERGE)
     private List<Doctor> clinicList = new ArrayList<>();
     @ManyToOne
     private Hospital hospital;

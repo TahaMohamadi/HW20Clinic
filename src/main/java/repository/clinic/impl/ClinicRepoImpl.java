@@ -21,9 +21,19 @@ public class ClinicRepoImpl extends BaseRepositoryImpl<Clinic> implements Clinic
 
     public List<Clinic> findAllClinics() {
         String jpql = """
-                select t from Clinic t order by t.name asc 
+                select c from Clinic c order by c.name asc 
                 """;
         return em.createQuery(jpql, Clinic.class).getResultList();
     }
+
+    @Override
+    public Clinic findClinicById(Long id) {
+        String jpql = """
+                select c from Clinic c where c.id = :id 
+                """;
+        return em.createQuery(jpql, Clinic.class).setParameter("id",id).getSingleResult();
     }
+
+
+}
 

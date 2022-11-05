@@ -1,9 +1,7 @@
 package entity;
 
 import base.entity.BaseEntity;
-import enums.AppointmentTime;
 import enums.AppointmentType;
-import enums.DayEnum;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,6 +10,7 @@ import java.sql.Time;
 
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
@@ -32,13 +31,14 @@ public class Appointment  extends BaseEntity {
     @JoinColumn(name = "medical_record_id")
     private MedicalRecord medicalRecord;
 
-    public Appointment(Patient patient, Doctor doctor, Time fromTime, Time thruTime, Date date, AppointmentType status) {
+
+    public Appointment(Patient patient, Doctor doctor, Time fromTime, Time thruTime, Date date, AppointmentType waiting) {
         this.patient = patient;
         this.doctor = doctor;
         this.fromTime = fromTime;
         this.thruTime = thruTime;
         this.date = date;
-        this.status = status;
+        this.status = waiting;
     }
 }
 

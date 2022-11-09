@@ -3,6 +3,7 @@ package repository.doctor;
 import base.repository.BaseRepository;
 import entity.Clinic;
 import entity.Doctor;
+import entity.UserAccount;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,4 +18,6 @@ public interface DoctorRepo extends BaseRepository<Doctor> {
     Doctor findDoctorById(Long id);
 
     List<Doctor> findAllDoctor();
+
+    Doctor findByUserId(UserAccount user);
 }

@@ -4,4 +4,5 @@ import base.service.BaseService;
 import entity.Drug;
 
 public interface DrugService extends BaseService<Drug> {
+    Drug findByName(String name);
 }

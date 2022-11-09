@@ -4,15 +4,20 @@ import entity.Appointment;
 import entity.Doctor;
 import entity.Patient;
 import entity.UserAccount;
+import operation.AppointmentOperation;
+import operation.PrescriptionOperation;
 import repository.appointment.impl.AppointmentRepoImpl;
 import repository.doctor.Impl.DoctorRepoImpl;
 import repository.patient.impl.PatientRepoImpl;
+import repository.prescription.impl.PrescriptionRepoImpl;
 import service.appointment.AppointmentService;
 import service.appointment.impl.AppointmentServiceImpl;
 import service.doctor.DoctorService;
 import service.doctor.impl.DoctorServiceImpl;
 import service.patient.PatientService;
 import service.patient.impl.PatientServiceImpl;
+import service.prescription.PrescriptionService;
+import service.prescription.impl.PrescriptionServiceImpl;
 import util.Hibernate;
 
 import java.sql.*;
@@ -26,6 +31,9 @@ public class DoctorMenu {
     private  final DoctorService doctorService = new DoctorServiceImpl(new DoctorRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
     private final PatientService patientService = new PatientServiceImpl(new PatientRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
     private final AppointmentService appointmentService = new AppointmentServiceImpl(new AppointmentRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
+    AppointmentOperation appointmentOperation = new AppointmentOperation();
+    private final PrescriptionService prescriptionService = new PrescriptionServiceImpl(new PrescriptionRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
+    PrescriptionOperation prescriptionOperation = new PrescriptionOperation();
 
     public void showAllDoctors() {
         System.out.println("doctor list: ");
@@ -84,6 +92,13 @@ public class DoctorMenu {
     }
 
     public void showDoctorMenu(UserAccount user) {
+        System.out.println("welcome doctor");
+        System.out.println("your appointment is: ");
+        appointmentOperation.doctorAppointment(user);
+        System.out.println("select your appointment id: ");
+        Long id = scanner.nextLong();
+        PrescriptionMenu prescriptionMenu = new PrescriptionMenu();
+        prescriptionMenu.createPrescription(id);
     }
 
 

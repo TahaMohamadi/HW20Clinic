@@ -54,4 +54,12 @@ public class AppointmentServiceImpl extends BaseServiceImpl<Appointment, Appoint
             throw new RuntimeException(e);
         }
     }
+
+    @Override
+    public List<Appointment> finByDoctor(Doctor doctor) {
+        try{
+            return repository.finByDoctor(doctor);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }    }
 }

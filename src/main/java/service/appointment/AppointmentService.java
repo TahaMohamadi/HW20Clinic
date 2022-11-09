@@ -19,4 +19,6 @@ public interface AppointmentService extends BaseService<Appointment> {
     List<Appointment> showAllAppointment(Long doctorId);
 
     List<Appointment> showAllAppointments();
+
+    List<Appointment> finByDoctor(Doctor doctor);
 }

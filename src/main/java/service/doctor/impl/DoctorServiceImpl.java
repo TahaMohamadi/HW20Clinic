@@ -3,6 +3,7 @@ package service.doctor.impl;
 import base.service.impl.BaseServiceImpl;
 import entity.Clinic;
 import entity.Doctor;
+import entity.UserAccount;
 import repository.doctor.DoctorRepo;
 import service.doctor.DoctorService;
 
@@ -40,5 +41,13 @@ public class DoctorServiceImpl extends BaseServiceImpl<Doctor, DoctorRepo> imple
             return repository.findAllDoctor();
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }      }
+        }
+    }
+    public Doctor findByUserId(UserAccount user) {
+        try{
+            return repository.findByUserId(user);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

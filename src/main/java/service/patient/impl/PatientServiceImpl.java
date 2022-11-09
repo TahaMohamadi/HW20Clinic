@@ -5,9 +5,7 @@ import entity.MedicalRecord;
 import entity.Patient;
 import entity.UserAccount;
 import repository.patient.PatientRepo;
-import repository.patient.impl.PatientRepoImpl;
 import service.patient.PatientService;
-import util.Hibernate;
 
 import java.util.List;
 
@@ -46,7 +44,7 @@ PatientServiceImpl extends BaseServiceImpl<Patient, PatientRepo> implements Pati
     }
 
     @Override
-    public void patientDesc(Long patientId) {
+    public Patient patientDesc(Long patientId) {
         try{
             return repository.patientDesc(patientId);
         } catch (Exception e) {

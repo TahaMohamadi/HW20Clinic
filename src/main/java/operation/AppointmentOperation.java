@@ -6,10 +6,13 @@ import menu.AppointmentMenu;
 import menu.DoctorMenu;
 import menu.PatientMenu;
 import repository.appointment.impl.AppointmentRepoImpl;
+import repository.doctor.Impl.DoctorRepoImpl;
 import repository.medicalRecord.impl.MedicalRecordRepoImpl;
 import repository.patient.impl.PatientRepoImpl;
 import service.appointment.AppointmentService;
 import service.appointment.impl.AppointmentServiceImpl;
+import service.doctor.DoctorService;
+import service.doctor.impl.DoctorServiceImpl;
 import service.medicalRecord.MedicalRecordService;
 import service.medicalRecord.impl.MedicalRecordServiceImpl;
 import service.patient.PatientService;
@@ -24,11 +27,14 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class AppointmentOperation {
     private final AppointmentService appointmentService = new AppointmentServiceImpl(new AppointmentRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
     private final PatientService patientService = new PatientServiceImpl(new PatientRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
     private final MedicalRecordService medicalRecordService = new MedicalRecordServiceImpl(new  MedicalRecordRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
+    private final DoctorService doctorService = new DoctorServiceImpl(new DoctorRepoImpl(Hibernate.getEntityManagerFactory().createEntityManager()));
+
     public void showAll(MedicalRecord medicalRecord) {
         Patient patient = patientService.findByMedicalRecord(medicalRecord);
         List<Appointment> appointments = appointmentService.findByPatient(patient);
@@ -97,6 +103,17 @@ public class AppointmentOperation {
     public List<Appointment> showAllAppointments() {
         List<Appointment> appointments= appointmentService.showAllAppointments();
         return appointments;
+    }
+
+    public void doctorAppointment(UserAccount user) {
+        Doctor doctor = doctorService.findByUserId(user);
+
+        List<Appointment> appointments = appointmentService.finByDoctor(doctor);
+        AtomicInteger i = new AtomicInteger();
+        appointments.forEach(appointment -> {
+            i.getAndIncrement();
+            System.out.println(i +". id: "+appointment.getId() +" | time: "+appointment.getFromTime() + " - " + appointment.getThruTime() + " | name: " + appointment.getPatient().getUserAccount().getPerson().getFirstName() +" " + appointment.getPatient().getUserAccount().getPerson().getLastName() );
+        });
     }
 }
 

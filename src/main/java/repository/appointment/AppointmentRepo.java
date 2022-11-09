@@ -18,4 +18,5 @@ public interface AppointmentRepo extends BaseRepository<Appointment> {
 
     List<Appointment> showAllAppointments();
 
+    List<Appointment> finByDoctor(Doctor doctor);
 }

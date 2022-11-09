@@ -14,5 +14,5 @@ public interface PatientService extends BaseService<Patient> {
 
     List<Patient> findAllPatient();
 
-    void patientDesc(Long patientId);
+    Patient patientDesc(Long patientId);
 }

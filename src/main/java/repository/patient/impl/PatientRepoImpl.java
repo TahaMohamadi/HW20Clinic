@@ -1,7 +1,6 @@
 package repository.patient.impl;
 
 import base.repository.impl.BaseRepositoryImpl;
-import base.service.impl.BaseServiceImpl;
 import entity.MedicalRecord;
 import entity.Patient;
 import entity.UserAccount;
@@ -46,6 +45,15 @@ public class PatientRepoImpl extends BaseRepositoryImpl<Patient> implements Pati
                 """;
         return (Hibernate.getEntityManagerFactory().createEntityManager().createQuery(jpql, Patient.class)
                 .getResultList());
+    }
+
+    @Override
+    public Patient patientDesc(Long patientId) {
+        String jpql = """
+                select p from Patient p where p.id = :patientId
+                """;
+        return (Hibernate.getEntityManagerFactory().createEntityManager().createQuery(jpql, Patient.class).setParameter("patientId",patientId)
+                .getSingleResult());
     }
 
 

@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class MedicalRecordMenu {
     private final Scanner scanner = new Scanner(System.in);
-    public void showMenu(MedicalRecord medicalRecord) {
+    public void showMenu(MedicalRecord medicalRecord, Patient patient) {
         while (true) {
             System.out.println("Welcome to your MedicalRecord");
             System.out.println("please select your service number");

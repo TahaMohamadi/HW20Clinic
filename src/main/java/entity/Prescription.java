@@ -24,4 +24,6 @@ public class Prescription  extends BaseEntity {
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "medical_record_id")
     private MedicalRecord medicalRecord;
+    @OneToOne
+    private Doctor doctor;
 }

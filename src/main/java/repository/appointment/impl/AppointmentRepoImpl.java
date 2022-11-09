@@ -67,4 +67,12 @@ public class AppointmentRepoImpl extends BaseRepositoryImpl<Appointment> impleme
                 """;
         return (Hibernate.getEntityManagerFactory().createEntityManager().createQuery(jpql, Appointment.class).getResultList());
     }
+
+    @Override
+    public List<Appointment> finByDoctor(Doctor doctor) {
+        String jpql = """
+                select a from Appointment a where a.doctor = :doctor
+                """;
+        return (Hibernate.getEntityManagerFactory().createEntityManager().createQuery(jpql, Appointment.class).setParameter("doctor", doctor).getResultList());
+    }
 }

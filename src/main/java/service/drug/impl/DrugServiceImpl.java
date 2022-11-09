@@ -14,4 +14,12 @@ public class DrugServiceImpl extends BaseServiceImpl<Drug, DrugRepo> implements 
     public DrugServiceImpl(DrugRepo repository) {
         super(repository);
     }
+    @Override
+    public Drug findByName(String name) {
+        try{
+            return repository.findByName(name);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

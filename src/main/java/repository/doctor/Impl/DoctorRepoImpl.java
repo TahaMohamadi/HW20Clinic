@@ -3,6 +3,7 @@ package repository.doctor.Impl;
 import base.repository.impl.BaseRepositoryImpl;
 import entity.Clinic;
 import entity.Doctor;
+import entity.UserAccount;
 import jakarta.persistence.EntityManager;
 import repository.doctor.DoctorRepo;
 import util.Hibernate;
@@ -42,6 +43,13 @@ public class DoctorRepoImpl extends BaseRepositoryImpl<Doctor> implements Doctor
                 select d from Doctor d 
                 """;
         return (Hibernate.getEntityManagerFactory().createEntityManager().createQuery(jpql, Doctor.class).getResultList());
+    }
+    @Override
+    public Doctor findByUserId(UserAccount user) {
+        String jpql = """
+                select d from Doctor d where d.userAccount = :user
+                """;
+        return (Hibernate.getEntityManagerFactory().createEntityManager().createQuery(jpql, Doctor.class).setParameter("user", user).getSingleResult());
     }
 }
 
